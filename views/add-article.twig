@@ -1,0 +1,51 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+	
+	{% if success %}<div class="alert alert-success">{{success}}</div>{% endif %}
+	{% if error %}<div class="alert alert-danger">{{error}}</div>{% endif %}
+
+	<form action="/add-article" method="POST">
+
+		<div class="form-group">
+			<label for="">Title :</label>
+			<input type="text" name="title" class="form-control">
+
+			{% if formError.title %}
+			<ul class="error"><li>{{ formError.title.message }}</li></ul>
+			{% endif %}
+		</div>
+		
+
+		<div class="form-group">
+			<label for="">Catégorie :</label>
+			<select name="category" id="" class="form-control">
+				<option value="">Select your Category !</option>
+				 {% if categories %}
+					 {% for category in categories %}
+						 <option value="{{ category.title }}">{{ category.title }}</option>
+					 {% endfor %}
+				 
+				 {% endif %}
+			 </select>
+		</div>
+
+		<div class="form-group">
+			<label for="">Content :</label>
+			<textarea name="content" id="content" class="form-control" cols="30" rows="10"></textarea>
+			{% if formError.content %}
+			<ul class="error"><li>{{ formError.content.message }}</li></ul>
+			{% endif %}
+		</div>
+
+		<div class="form-group">
+			<label for="">Image :</label>
+			<input type="file" name="image" class="form-control">
+			{% if formError.image %}
+			<ul class="error"><li>{{ formError.image.message }}</li></ul>
+			{% endif %}
+		</div>
+		<button class="btn btn-success mt-3">Add Article</button>
+	</form>
+
+{% endblock %}

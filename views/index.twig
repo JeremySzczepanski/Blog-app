@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+  <h1>{{title}}</h1>
+  <p>Welcome to {{title}}</p>
+ {% if articles %}
+	<div class="row">	<!-- -> si on obtient articles, on crée une div.row et à l'intérieur on affiche les articles, un article sera une colonne -->
+	
+		{% for article in articles %}
+
+			<div class="card col-md-3 m-2" style="width: 18rem;"> 	<!--    col-md-3: sur l'écran moyen on aura 3 éléments sur la meme ligne -->
+										                                          <!--    m-2: un peu de marge autour -->
+  				<img src="https://via.placeholder.com/300x300" class="card-img-top" alt="{{ article.title }}">	<!-- -> en attendant on génére un image -->
+  				<div class="card-body">
+    				<h5 class="card-title">{{ article.title }}</h5>
+    				
+    				<a href="/article/{{article._id}}" class="btn btn-primary">En savoir plus</a>
+  				</div>
+			</div>
+
+		{% endfor %}
+
+	</div>
+ {% endif %}
+ 
+{% endblock %}
