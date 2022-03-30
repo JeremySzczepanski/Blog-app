@@ -1,18 +1,35 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const Category = require('./models/category.model');
-//const Article = require('./models/article.model');  //création d'un article
+let createError = require('http-errors');
+let express = require('express');
+let session = require('express-session');
+let flash = require('connect-flash');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 const bodyParser = require('body-parser');
-const Validator = require('node-input-validator');
+const mongoose = require('mongoose');
+// const Category = require('./models/category.model');
+//const Article = require('./models/article.model');  //création d'un article
+// const Validator = require('node-input-validator');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
 
-var app = express();
+let app = express();
+
+app.use(session({
+	secret: 'laclefnecessairealencodage',
+	resave: false,
+	saveUninitialized: false
+}));
+
+//Init flash
+app.use(flash());
+app.use((req, res, next)=>{
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
+  next();
+})
 
 // Prise en charge du JSON
 app.use(bodyParser.json());
@@ -20,7 +37,7 @@ app.use(bodyParser.json());
 // Prise en charge du formulaire
 app.use(bodyParser.urlencoded({extended: false}));
 
-const mongoose = require('mongoose');
+
 mongoose.connect('mongodb://localhost:27017/blog',
 	{useNewUrlParser: true, useUnifiedTopology: true})
 	.then(()=>console.log("Connexion à MongoDB réussie"))

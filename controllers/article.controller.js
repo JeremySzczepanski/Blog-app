@@ -48,29 +48,41 @@ exports.addOne = (req, res)=>{
 
     let article = new Article ({
         ...req.body,
+        image: `${req.protocol}://${req.get('host')}/images/articles/${req.file.filename}`,
         publishedAt: Date.now()
     });
+    // console.log(article);
+    // return;
+
+        // article.save((err, article)=>{
+        //     if(err){
+        //         Category.find()
+        //     .then((categories)=>{			            //--> les categorie récupérées
+        //         res.render('add-article', {categories: categories, error: "Sorry, an error has occured. Thank you try again later"})  	//--> à l'intérieur on va pouvoir rendre la vue
+        //     })
+        //     .catch(()=>{	                            //--> si on arrive pas à avoir les catégories on redirige sur la page d'accueil
+        //         res.redirect('/');
+        //     });	
+            
+        // }else{
+        //     Category.find()		                        //--> si pas d'erreur on va récupérer les catégories
+        //     .then((categories)=>{			            //--> dans le cas où on a les données, on procède à l'affichage (on va ajouter les catégories qu'on a récupéré)
+        //         res.render('add-article', {categories: categories, success: "Thank you, your article has been added"})
+        //     })
+        //     .catch(()=>{
+        //         res.redirect('/');
+        //     });
+            
+        // }
+        // });  
 
         article.save((err, article)=>{
             if(err){
-                Category.find()
-            .then((categories)=>{			            //--> les categorie récupérées
-                res.render('add-article', {categories: categories, error: "Sorry, an error has occured. Thank you try again later"})  	//--> à l'intérieur on va pouvoir rendre la vue
-            })
-            .catch(()=>{	                            //--> si on arrive pas à avoir les catégories on redirige sur la page d'accueil
-                res.redirect('/');
-            });	
-            
-        }else{
-            Category.find()		                        //--> si pas d'erreur on va récupérer les catégories
-            .then((categories)=>{			            //--> dans le cas où on a les données, on procède à l'affichage (on va ajouter les catégories qu'on a récupéré)
-                res.render('add-article', {categories: categories, success: "Thank you, your article has been added"})
-            })
-            .catch(()=>{
-                res.redirect('/');
-            });
-            
-        }
-        });  
+                req.flash('error', 'Sorry, an error has occured. Thank you try again later');
+                return res.redirect('/add-article');
+            }
+            req.flash('success', 'Thank you, your article has been added');
+            return res.redirect('/add-article');
+        });
 
 }

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const addOneValidator = require('../validators/article.validator');
 const articleController = require('../controllers/article.controller');
+const multerConfig = require('../middlewares/multer.config');
 
 
 
@@ -54,7 +55,7 @@ router.get('/article/:id', articleController.show);
 router.get('/add-article', articleController.add);
 
 /* AddOne Article */
-router.post('/add-article', addOneValidator ,articleController.addOne);
+router.post('/add-article', multerConfig, addOneValidator, articleController.addOne); //
 
 
 

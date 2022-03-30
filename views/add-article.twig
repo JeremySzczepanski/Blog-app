@@ -2,10 +2,9 @@
 
 {% block body %}
 	
-	{% if success %}<div class="alert alert-success">{{success}}</div>{% endif %}
-	{% if error %}<div class="alert alert-danger">{{error}}</div>{% endif %}
 
-	<form action="/add-article" method="POST">
+
+	<form action="/add-article" method="POST" enctype="multipart/form-data">
 
 		<div class="form-group">
 			<label for="">Title :</label>

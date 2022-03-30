@@ -4,11 +4,13 @@
 
     <div class="" style="width: 100%;">
                                                                                     
-        <img src="https://via.placeholder.com/1800x300" class="card-img-top" alt="{{ article.title }}">
+        <img src="{{ article.image }}" width="1800" height="400" class="card-img-top" alt="{{ article.title }}">
         <div class="card-body">
         <h3>{{article.title}}</h3>
-        <a href="">Publié le{{article.publishedAt | date("d/m/Y")}}</a>
+        <p><strong>Publié le </strong>{{article.publishedAt | date("d-m-Y h:m:s")}}</p>
+        <hr>
         <p class="card-text">{{ article.content }}</p>
+        <a href="/" class="btn btn-primary">Back To Home</a>
     
         </div>
     </div>
