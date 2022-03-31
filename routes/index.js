@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const addOneValidator = require('../validators/article.validator');
+const articleValidator = require('../validators/article.validator');
 const articleController = require('../controllers/article.controller');
 const multerConfig = require('../middlewares/multer.config');
 
@@ -24,7 +24,7 @@ const multerConfig = require('../middlewares/multer.config');
           //         // //res.render('index', {title: 'Express' });
           //   //ON IMPORTE LA FONCTION "list" du controller
           // });
-router.get('/', articleController.list)
+router.get('/', articleController.listArticle)
 
 
 
@@ -48,16 +48,20 @@ router.get('/', articleController.list)
           // 	});
 
           // })
-router.get('/article/:id', articleController.show);
+router.get('/article/:id', articleController.showArticle);
 
 
 /* Add Article */
-router.get('/add-article', articleController.add);
+router.get('/add-article', articleController.addArticle);
 
 /* AddOne Article */
-router.post('/add-article', multerConfig, addOneValidator, articleController.addOne); //
+router.post('/add-article', multerConfig, articleValidator, articleController.addOneArticle); //
 
+/* Edit Article */
+router.get('/edit-article/:id', articleController.editArticle);
 
+/* Edit One Article */
+router.post('/edit-article/:id', multerConfig, articleController.editOneArticle);
 
 
 

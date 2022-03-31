@@ -2,7 +2,7 @@
 
 {% block body %}
 	
-	<h1 class="text-center">Add your article !</h1>
+	<h1 class="text-center">Edit your article !</h1>
 	{% if errorFormArticle %}
 		<p class="text-danger">Please fix the following error.</p>
 		<ul class="errors">	 				<!-- on crée une balise ul de class error pour enumérer tous les problèmes,  -->
@@ -25,11 +25,11 @@
 			{% endfor %}
 	{% endif %}
 
-	<form action="/add-article" method="POST" enctype="multipart/form-data">
+	<form action="" method="POST" enctype="multipart/form-data">
 
 		<div class="form-group">
 			<label for="">Title :</label>
-			<input type="text" name="title" class="form-control">
+			<input type="text" name="title" id="title" value="{{ article.title }}" class="form-control" >
 
 			{% if formError.title %}
 			<ul class="error"><li>{{ formError.title.message }}</li></ul>
@@ -41,18 +41,23 @@
 			<label for="">Catégorie :</label>
 			<select name="category" id="" class="form-control">
 				<option value="">Select your Category !</option>
-				 {% if categories %}
-					 {% for category in categories %}
-						 <option value="{{ category.title }}">{{ category.title }}</option>
-					 {% endfor %}
-				 
-				 {% endif %}
+				{% if categories %}
+					{% for category in categories %}
+				  		{% if category.title is same as(article.category) %}	<!--//si c'est la même chose on ajoute "selected" a option -->
+					  	<option value="{{ category.title }}" selected>{{ category.title }}</option>
+				  		{% else %}
+					  	<option value="{{ category.title }}">{{ category.title }}</option> <!--si "else" on affiche l'option sans attribut selected-->
+				  		{% endif %}
+					{% endfor %}	 
+			  	{% endif %}
 			 </select>
 		</div>
 
 		<div class="form-group">
 			<label for="">Content :</label>
-			<textarea name="content" id="content" class="form-control" cols="30" rows="10"></textarea>
+			<textarea name="content" id="content" class="form-control" cols="30" rows="10">
+				{{ article.content | raw }}
+			</textarea>
 			{% if formError.content %}
 			<ul class="error"><li>{{ formError.content.message }}</li></ul>
 			{% endif %}
@@ -65,7 +70,7 @@
 			<ul class="error"><li>{{ formError.image.message }}</li></ul>
 			{% endif %}
 		</div>
-		<button class="btn btn-success mt-3">Add Article</button>
+		<button class="btn btn-success mt-3">Edit Article</button>
 	</form>
 
 
