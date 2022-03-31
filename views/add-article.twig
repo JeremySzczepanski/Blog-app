@@ -1,0 +1,73 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+	
+	<h1 class="text-center">Add your article !</h1>
+	{% if errorFormArticle %}
+		<p class="text-danger">Please fix the following error.</p>
+		<ul class="errors">	 				<!-- on crée une balise ul de class error pour enumérer tous les problèmes,  -->
+			{% for error in errorFormArticle %}				<!--pour avoir les problèmes, on va boucler sur -->
+				{% if error.title %}						<!--error que nous avons dans errorFormArticle -->
+				<li>{{ error.title.message }}</li>
+				{% endif %}
+
+				{% if error.category %}						
+				<li>{{ error.category.message }}</li>
+				{% endif %}
+
+				{% if error.content %}						
+				<li>{{ error.content.message }}</li>
+				{% endif %}
+
+				{% if error.image %}						
+				<li>{{ error.image.message }}</li>
+				{% endif %}
+			{% endfor %}
+	{% endif %}
+
+	<form action="/add-article" method="POST" enctype="multipart/form-data">
+
+		<div class="form-group">
+			<label for="">Title :</label>
+			<input type="text" name="title" class="form-control">
+
+			{% if formError.title %}
+			<ul class="error"><li>{{ formError.title.message }}</li></ul>
+			{% endif %}
+		</div>
+		
+
+		<div class="form-group">
+			<label for="">Catégorie :</label>
+			<select name="category" id="" class="form-control">
+				<option value="">Select your Category !</option>
+				 {% if categories %}
+					 {% for category in categories %}
+						 <option value="{{ category.title }}">{{ category.title }}</option>
+					 {% endfor %}
+				 
+				 {% endif %}
+			 </select>
+		</div>
+
+		<div class="form-group">
+			<label for="">Content :</label>
+			<textarea name="content" id="content" class="form-control" cols="30" rows="10"></textarea>
+			{% if formError.content %}
+			<ul class="error"><li>{{ formError.content.message }}</li></ul>
+			{% endif %}
+		</div>
+
+		<div class="form-group">
+			<label for="">Image :</label>
+			<input type="file" name="image" class="form-control">
+			{% if formError.image %}
+			<ul class="error"><li>{{ formError.image.message }}</li></ul>
+			{% endif %}
+		</div>
+		<button class="btn btn-success mt-3">Add Article</button>
+	</form>
+
+
+
+{% endblock %}
