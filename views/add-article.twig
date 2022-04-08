@@ -3,10 +3,10 @@
 {% block body %}
 	
 	<h1 class="text-center">Add your article !</h1>
-	{% if errorFormArticle %}
+	{% if errorForm %}
 		<p class="text-danger">Please fix the following error.</p>
 		<ul class="errors">	 				<!-- on crée une balise ul de class error pour enumérer tous les problèmes,  -->
-			{% for error in errorFormArticle %}				<!--pour avoir les problèmes, on va boucler sur -->
+			{% for error in errorForm %}				<!--pour avoir les problèmes, on va boucler sur -->
 				{% if error.title %}						<!--error que nous avons dans errorFormArticle -->
 				<li>{{ error.title.message }}</li>
 				{% endif %}
@@ -23,6 +23,7 @@
 				<li>{{ error.image.message }}</li>
 				{% endif %}
 			{% endfor %}
+		</ul>
 	{% endif %}
 
 	<form action="/add-article" method="POST" enctype="multipart/form-data">

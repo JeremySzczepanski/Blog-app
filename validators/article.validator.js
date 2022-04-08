@@ -16,7 +16,7 @@ articleValidator = (req, res, next)=>{
     formIsValid.check().then((matched)=>{
         if (!matched){
             //error
-            req.flash('errorFormArticle', formIsValid.errors);
+            req.flash('errorForm', formIsValid.errors);
             return res.redirect('/add-article');
     }
         next();

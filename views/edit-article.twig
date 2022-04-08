@@ -3,27 +3,7 @@
 {% block body %}
 	
 	<h1 class="text-center">Edit your article !</h1>
-	{% if errorFormArticle %}
-		<p class="text-danger">Please fix the following error.</p>
-		<ul class="errors">	 				<!-- on crée une balise ul de class error pour enumérer tous les problèmes,  -->
-			{% for error in errorFormArticle %}				<!--pour avoir les problèmes, on va boucler sur -->
-				{% if error.title %}						<!--error que nous avons dans errorFormArticle -->
-				<li>{{ error.title.message }}</li>
-				{% endif %}
 
-				{% if error.category %}						
-				<li>{{ error.category.message }}</li>
-				{% endif %}
-
-				{% if error.content %}						
-				<li>{{ error.content.message }}</li>
-				{% endif %}
-
-				{% if error.image %}						
-				<li>{{ error.image.message }}</li>
-				{% endif %}
-			{% endfor %}
-	{% endif %}
 
 	<form action="" method="POST" enctype="multipart/form-data">
 
