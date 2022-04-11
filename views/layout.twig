@@ -13,14 +13,38 @@
 
 
     <div class="container mt-3"> <!--On met la div class container "mt-3" (margin top) pour décaller un peu le body de la nav bar-->
-      {% if success %}<div class="alert alert-success">{{success}}</div>{% endif %}
-      {% if error %}<div class="alert alert-danger">{{error}}</div>{% endif %}
+      {% if success %}<div class="alert alert-success" id="alert-success">{{success}}</div>{% endif %}
+      {% if error %}<div class="alert alert-danger" id="alert-danger">{{error}}</div>{% endif %}
+      {% if warning %}<div class="alert alert-warning" id="alert-warning">{{warning}}</div>{% endif %}
       {% block body %}{% endblock %}
     </div>
 
-    <!--Bootstrap JS-->
+    {# <!--Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  
+    #}
+
+
+    <!--Bootstrap JS Separate-->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    
+    <!-- Suppress Flash Messages -->
+    <script>
+      window.addEventListener("load", (event)=>{
+        setTimeout(()=>{
+          if(document.getElementById("alert-success")){
+            document.getElementById("alert-success").style.display = "none";
+          }else if(document.getElementById("alert-warning")){
+            document.getElementById("alert-warning").style.display = "none";
+          }else if(document.getElementById("alert-danger")){
+            document.getElementById("alert-danger").style.display = "none";
+          }
+        }, 7000);
+      })
+    </script>
+
+
+
     {% block javascript %}
       <!-- CKEditor -->
 	    <script src="https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.js"></script>

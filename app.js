@@ -1,15 +1,17 @@
 let createError = require('http-errors');
 let express = require('express');
 let session = require('express-session');
-let flash = require('connect-flash');
+const flash = require('connect-flash');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const mongoose = require('mongoose');
 // const Category = require('./models/category.model');
 //const Article = require('./models/article.model');  //création d'un article
 // const Validator = require('node-input-validator');
+const User = require('./models/user.model');   //Passport local
 
 
 let indexRouter = require('./routes/index');
@@ -23,14 +25,29 @@ app.use(session({
 	saveUninitialized: false
 }));
 
+// Init Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Passport Local Mongoose
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 //Init flash
 app.use(flash());
 app.use((req, res, next)=>{
+  if(req.user){
+    res.locals.user = req.user; //ainsi partout où on ira sur le site, on aura les infos sur le currentUser (ici locals.user)
+  }
   res.locals.error = req.flash('error');
+  res.locals.warning = req.flash('warning');
   res.locals.success = req.flash('success');
   res.locals.errorForm = req.flash('errorForm');
   next();
 })
+
+
 
 // Prise en charge du JSON
 app.use(bodyParser.json());

@@ -1,0 +1,44 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+    <h1>Welcome to your DashBoard {{ user.username }}</h1>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+          <button class="nav-link" id="nav-article-tab" data-bs-toggle="tab" data-bs-target="#nav-article" type="button" role="tab" aria-controls="nav-article" aria-selected="false">Article</button>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+
+        <div class="tab-pane fade show active mt-3" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <h3>Hello {{ user.username }}</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In nulla obcaecati, voluptatum expedita sapiente rerum laudantium, ipsam maxime nemo repudiandae nostrum facilis! Inventore nulla, earum expedita libero ad facere aliquam!</p>
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <h3>Profile</h3>
+            <form type="hidden" name="userId" value="{{ user._id}}">
+                <label for="firstname">First Name</label>
+                <input class="form-control" type="text" id="firstname" name="firstname" value="{{ user.firstname }}">
+
+                <label for="lastname">Last Name</label>
+                <input class="form-control" type="text" id="lastname" name="lastname" value="{{ user.lastname }}">
+
+                <label for="username">User Name</label>
+                <input class="form-control" type="text" id="username" name="username" value="{{ user.username }}">
+
+                <label for="email">Email</label>
+                <input class="form-control" type="email" id="email" name="email" value="{{ user.email }}">
+
+                <button type="submit" class="btn btn-success mt-3">Update profile</button>
+
+            </form>
+        </div>
+
+        <div class="tab-pane fade" id="nav-article" role="tabpanel" aria-labelledby="nav-article-tab">
+            <h3>My articles</h3>
+        </div>
+      </div>
+      
+{% endblock body %}

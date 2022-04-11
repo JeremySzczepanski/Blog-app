@@ -11,7 +11,7 @@ exports.listArticle = (req, res)=>{
     Article.find()		
     			
     .then((articles)=>{				
-    res.render('index', {title: 'Express', 'articles': articles });	
+    res.render('index', {title: 'HopSoap', 'articles': articles });	
     })						
 
     .catch((err)=>{					
