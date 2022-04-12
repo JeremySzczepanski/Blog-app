@@ -49,6 +49,7 @@ router.get('/dashboard', guard, (req, res)=>{		//on met un guard afin d'acceder 
 	res.render('dashboard');
 })
 
+router.post('/save-profile', userController.saveProfile)
 
 /**
  *  Logout

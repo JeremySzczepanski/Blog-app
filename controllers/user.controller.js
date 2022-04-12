@@ -203,5 +203,52 @@ module.exports = {
             })
     
     
+    },
+    saveProfile: (req, res, next)=>{
+        if(!req.user){
+		req.flash('warning', 'Please login to modify your profile !');
+		return res.redirect('/users/login');
+	}
+							//est ce que l'identifiant de connexion est le même que celui dans le formulaire
+							//-->  <input type="hidden" name="userId" value="{{ user._id}}"> (dans le dashboard.twig)
+	if(req.user._id != req.body.userId){		//on doit bien avoir un "name="userId" dans le formulaire
+		req.flash('error', 'You are not allowed to modify this profile !');
+		return res.redirect('/users/dashboard');
+	}
+							//s'il arrive ici, c'est qu'il est bien connecté et que les informations qu'il veut modifier sont les bonnes informations
+							//On va donc aller chercher les informations en base de données
+
+	User.findOne({_id: req.body.userId}, (err, user)=>{		//ou {_id: req.user._id} puisque les 2 sont identiques
+		if(err){
+			console.log(err);
+		}
+
+				//on change le firstname (user.firstname) est ce que le firstname est défini(req.body.firstname)), 
+				//si oui (?) on le met à l'intérieur, sinon on garde l'ancienne valeur qu'on avait déja. (user.firstname)
+
+        const oldUsername = user.username;
+		user.firstname = req.body.firstname ? req.body.firstname : user.firstname;	
+		user.lastname = req.body.lastname ? req.body.lastname : user.lastname;
+		user.username = req.body.username ? req.body.username : user.username;
+		user.email = req.body.email ? req.body.email : user.email;
+
+
+		user.save((err, user)=>{
+
+			if(err){									//si la sauvegarde ne se passe pas bien
+				req.flash('error', 'An error has occured. Please try again !');
+				return res.redirect('/users/dashboard');
+			}
+            if(oldUsername != user.username){
+                req.flash('success', 'Your username has been changed and you have been logged out. Please reconnect with the new one :'+req.body.username);
+                return res.redirect('/users/login');
+            }
+			req.flash('success', 'your profile has been updated !');		//Si la sauvegarde s'est bien passée on affiche un message de succès
+			return res.redirect('/users/dashboard');
+		})	
+
+
+	})
     }
+
 }

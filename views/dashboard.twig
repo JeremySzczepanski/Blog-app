@@ -18,7 +18,9 @@
 
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <h3>Profile</h3>
-            <form type="hidden" name="userId" value="{{ user._id}}">
+
+            <form method="post" action="/users/save-profile" accept-charset="UTF-8">
+                <input type="hidden" name="userId" value="{{ user._id}}">
                 <label for="firstname">First Name</label>
                 <input class="form-control" type="text" id="firstname" name="firstname" value="{{ user.firstname }}">
 
@@ -30,6 +32,7 @@
 
                 <label for="email">Email</label>
                 <input class="form-control" type="email" id="email" name="email" value="{{ user.email }}">
+                
 
                 <button type="submit" class="btn btn-success mt-3">Update profile</button>
 
