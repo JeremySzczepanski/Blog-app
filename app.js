@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 //const Article = require('./models/article.model');  //création d'un article
 // const Validator = require('node-input-validator');
 const User = require('./models/user.model');   //Passport local
+const Article = require('./models/article.model');
 
 
 let indexRouter = require('./routes/index');
@@ -33,6 +34,25 @@ app.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+//Stockage des articles du connected User dans une variable locale: res.locals.articles
+app.use((req, res, next)=>{
+	if(req.isAuthenticated()){		//permet de savoir s'il est authentifié, alors on va récupérer les articles sauvegardés en son nom
+		Article.find({author: req.user._id}, (err, articles)=>{		//on recherche les articles avec le nom de l'author = user._id
+			if(err){
+				console.log(err);
+			}else{
+				res.locals.articles = articles;		//on sauvegarde les articles récupérés en local.
+			}
+				next()	//que l'on soit dans le if ou dans le else, à un moment on devra passer au middleware suivant, alors on peut
+					//mettre next() en dehors des blocs.
+		})
+	}else{
+		next();
+	}
+})
+
+
 
 //Init flash
 app.use(flash());

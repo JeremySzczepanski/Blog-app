@@ -3,6 +3,7 @@ var router = express.Router();
 const articleValidator = require('../validators/article.validator');
 const articleController = require('../controllers/article.controller');
 const multerConfig = require('../middlewares/multer.config');
+const { guard } = require('../middlewares/guard');
 
 
 
@@ -52,17 +53,19 @@ router.get('/article/:id', articleController.showArticle);
 
 
 /* Add Article */
-router.get('/add-article', articleController.addArticle);
+router.get('/add-article', guard, articleController.addArticle);
 
 /* AddOne Article */
-router.post('/add-article', multerConfig, articleValidator, articleController.addOneArticle); //
+router.post('/add-article', multerConfig, articleValidator, guard, articleController.addOneArticle); //
 
 /* Edit Article */
-router.get('/edit-article/:id', articleController.editArticle);
+router.get('/edit-article/:id', guard, articleController.editArticle);
 
 /* Edit One Article */
-router.post('/edit-article/:id', multerConfig, articleController.editOneArticle);
+router.post('/edit-article/:id', multerConfig, guard, articleController.editOneArticle);
 
+/* Delete One Article */
+router.get('/delete-article/:id', guard, articleController.deleteArticle);
 
 
 module.exports = router;
