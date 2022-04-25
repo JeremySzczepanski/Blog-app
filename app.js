@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 // const Validator = require('node-input-validator');
 const User = require('./models/user.model');   //Passport local
 const Article = require('./models/article.model');
+const dotenv = require('dotenv').config();
 
 
 let indexRouter = require('./routes/index');
@@ -21,7 +22,7 @@ let usersRouter = require('./routes/users');
 let app = express();
 
 app.use(session({
-	secret: 'laclefnecessairealencodage',
+	secret: process.env.SECRET,
 	resave: false,
 	saveUninitialized: false
 }));
@@ -77,7 +78,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 // mongoose.connect('mongodb://localhost:27017/blog',
-mongoose.connect('mongodb+srv://NodeBlogAdmin:bn4H0p3KtPvS7Gpt@cluster0.nz4jz.mongodb.net/blog?retryWrites=true&w=majority',
+mongoose.connect(process.env.DATABASE,
 	{useNewUrlParser: true, useUnifiedTopology: true})
 	.then(()=>console.log("Connexion à MongoDB réussie"))
 	.catch(()=> console.log("Echec de connexion à MongoDB"));
