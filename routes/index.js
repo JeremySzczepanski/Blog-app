@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const articleValidator = require('../validators/article.validator');
+const categoryValidator = require('../validators/category.validator');
 const articleController = require('../controllers/article.controller');
+const categoryController = require('../controllers/category.controller');
 const multerConfig = require('../middlewares/multer.config');
 const { guard } = require('../middlewares/guard');
 
@@ -66,6 +68,13 @@ router.post('/edit-article/:id', multerConfig, guard, articleController.editOneA
 
 /* Delete One Article */
 router.get('/delete-article/:id', guard, articleController.deleteArticle);
+
+/* Add Category */
+router.get('/add-category', guard, (req, res)=>{		//lorsqu'on se rend sur cette adresse: /add-category
+	res.render('add-category');			        //ça va nous rendre cette vue: add-category.twig
+});
+
+router.post('/add-category', guard, categoryValidator, categoryController.addCategory);    //lorsqu'on soumet le formulaire
 
 
 module.exports = router;

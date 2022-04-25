@@ -76,7 +76,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 
-mongoose.connect('mongodb://localhost:27017/blog',
+// mongoose.connect('mongodb://localhost:27017/blog',
+mongoose.connect('mongodb+srv://NodeBlogAdmin:bn4H0p3KtPvS7Gpt@cluster0.nz4jz.mongodb.net/blog?retryWrites=true&w=majority',
 	{useNewUrlParser: true, useUnifiedTopology: true})
 	.then(()=>console.log("Connexion à MongoDB réussie"))
 	.catch(()=> console.log("Echec de connexion à MongoDB"));
